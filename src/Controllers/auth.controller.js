@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const tokenBlackListModel = require("../models/blackList.model");
 /**
  * @name registerUserController
  *  @description register a new user
@@ -71,17 +72,59 @@ async function loginUserController(req, res) {
     { expiresIn: "1h" },
   );
   res.cookie("token", token);
-  res
-    .status(200)
-    .json({
-      message: "Login successful",
-      user: {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        token: token,
-      },
-    });
+  res.status(200).json({
+    message: "Login successful",
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      token: token,
+    },
+  });
 }
 
-module.exports = { registerUserController, loginUserController };
+/**
+ * @name logoutUserController
+ * @description logout a user
+ * @access Public
+ */
+
+async function logoutUserController(req, res) {
+  const token = req.cookies.token;
+  if (token) {
+    await tokenBlackListModel.create({ token });
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logout successful" });
+  } else {
+    res.status(400).json({ message: "No token found" });
+  }
+
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logout successful" });
+}
+
+/**
+ * @name getMeController
+ * @description get current user
+ * @access Private
+ */
+
+async function getMeController(req, res) {
+  const user = await userModel.findById(req.user.id);
+  res.status(200).json({
+    message: "User fetched successfully",
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    },
+  });
+}
+
+module.exports = {
+  registerUserController,
+  loginUserController,
+  getMeController,
+  logoutUserController,
+};
+
