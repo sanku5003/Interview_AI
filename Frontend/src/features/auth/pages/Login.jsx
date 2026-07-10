@@ -15,6 +15,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin({email , password});
+    navigate('/');
   };
 
   if(loading){

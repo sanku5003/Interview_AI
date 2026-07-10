@@ -24,7 +24,7 @@ export async function login({ email, password }) {
       email,
       password,
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -41,7 +41,7 @@ export async function logout() {
 
 export async function getMe() {
   try {
-    const response = await api.get("/api/auth/me");
+    const response = await api.get("/api/auth/get-me");
     return response.data;
   } catch (error) {
     console.error(error);

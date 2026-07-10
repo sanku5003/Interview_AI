@@ -1,16 +1,20 @@
+
 const jwt = require("jsonwebtoken");
 const tokenBlackListModel = require("../models/blackList.model");
 
-function authUser(req, res, next) {
+async function authUser(req, res, next) {
   const token = req.cookies.token;
+
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const isTokenBlackListed = tokenBlackListModel.findOne({ token });
+  const isTokenBlackListed = await tokenBlackListModel.findOne({ token });
+
   if (isTokenBlackListed) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decoded;
