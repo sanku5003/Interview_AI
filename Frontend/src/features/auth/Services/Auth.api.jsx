@@ -2,11 +2,11 @@ import React from "react";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/api/auth",
+  baseURL: "http://localhost:4000",
   withCredentials: true,
 });
 
-export async function register(username, email, password) {
+export async function register({ username, email, password }) {
   try {
     const response = await api.post("/api/auth/register", {
       username,
@@ -18,7 +18,7 @@ export async function register(username, email, password) {
   }
 }
 
-export async function login(email, password) {
+export async function login({ email, password }) {
   try {
     const response = await api.post("/api/auth/login", {
       email,
