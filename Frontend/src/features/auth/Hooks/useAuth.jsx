@@ -6,18 +6,40 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
   const { user, setUser, loading, setLoading } = context;
 
+  // const handleLogin = async ({ email, password }) => {
+  //   setLoading(true);
+  //   try {
+  //     const data = await login({ email, password });
+  //     setUser(data.user);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleLogin = async ({ email, password }) => {
-    setLoading(true);
-    try {
-      const data = await login({ email, password });
+  setLoading(true);
+
+  try {
+    const data = await login({ email, password });
+
+    if (data?.user) {
       setUser(data.user);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
+      return true;
     }
-  };
+
+    return false;
+
+  } catch (err) {
+    console.log(err);
+    return false;
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleRegister = async ({ email, username, password }) => {
     setLoading(true);
@@ -39,6 +61,7 @@ export const useAuth = () => {
       try {
         const data = await getMe();
 
+        console.log("getMe response:", data);
         if (data) {
           setUser(data.user);
         }

@@ -1,69 +1,245 @@
 .home {
-    width: 100%;
-    min-height:100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+  min-height: 100vh;
+  padding: 2.5rem 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: radial-gradient(circle at top, rgba(18, 39, 61, 0.9), transparent 22%),
+    radial-gradient(circle at 70% 15%, rgba(14, 27, 47, 0.95), transparent 24%),
+    #02060d;
+  color: #dde6f2;
 }
 
-.left {
-  
-    align-self: stretch;
-    margin-right: 1rem;
-    width: 50%;
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
+.hero-panel {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.right {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    justify-content: flex-start;
-    align-self: stretch;
+.eyebrow {
+  color: #7ddbff;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
-.interview-input-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 600px;
-    min-height: 500px;
+.hero-panel h1 {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  margin: 0;
+  line-height: 1.05;
+  color: #f4f7fb;
 }
 
-textarea {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    padding-inline: 1rem ;
-    padding-block: 0.75rem;
-    border-radius: 0.5rem;
-    background-color: #1a1f27;
-    color: whitesmoke;
-    resize: none;
-    
+.hero-copy {
+  max-width: 780px;
+  margin: 0 auto;
+  color: #9db4cc;
+  font-size: 1rem;
+  line-height: 1.8;
 }
 
-.file-label {
-    text-align: center;
-    display: inline-block;
-    padding: 0.75rem 1rem;
-    background-color: #3b77a2;
-    color: whitesmoke;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    
+.interview-panel {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card {
+  background: rgba(8, 17, 29, 0.96);
+  border: 1px solid rgba(69, 100, 131, 0.18);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.22);
+}
+
+.card-header,
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-title-row small,
+.card-header small {
+  color: #7a95af;
+}
+
+.card-header span,
+.card-title-row span {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #eff7ff;
+}
+
+.ghost-btn {
+  border: 1px solid rgba(126, 205, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: #c4e6ff;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ghost-btn:hover {
+  border-color: rgba(126, 205, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.job-card textarea,
+.self-card textarea {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  border: 1px solid rgba(118, 159, 211, 0.16);
+  background: rgba(9, 16, 26, 0.94);
+  color: #e9f3ff;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  outline: none;
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+.job-card textarea:focus,
+.self-card textarea:focus {
+  border-color: rgba(125, 208, 255, 0.45);
+  box-shadow: 0 0 0 4px rgba(31, 92, 139, 0.15);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.upload-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-copy,
+.insight-card p {
+  color: #89aac2;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  border: 2px dashed rgba(123, 216, 255, 0.34);
+  border-radius: 1.25rem;
+  color: #97d6ff;
+  font-size: 0.95rem;
+  background: rgba(18, 32, 51, 0.82);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.dropzone:hover {
+  border-color: rgba(123, 216, 255, 0.65);
+  background: rgba(24, 40, 63, 0.92);
+}
+
+.file-info {
+  color: #c9d8ea;
+  font-size: 0.92rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.status-chip {
+  background: rgba(125, 209, 255, 0.14);
+  color: #8de5ff;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #9ab5ce;
+}
+
+.meta-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #69ccff;
+}
+
+.self-card {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.self-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.char-count {
+  color: #8ea7bf;
+  font-size: 0.88rem;
 }
 
 .generate-btn {
-    background-color: rgba(0, 255, 255, 0.619) !important;
-    color: rgb(255, 255, 255) !important;
+  background: linear-gradient(135deg, rgba(35, 157, 255, 0.92), rgba(12, 94, 158, 0.95));
+  border: none;
+  color: #f3fbff;
+  padding: 0.95rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 18px 40px rgba(3, 84, 143, 0.28);
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.input-group:has(textarea){
-    height: 100%;
+.generate-btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 960px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .home {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .card {
+    padding: 1.4rem;
+  }
+
+  .job-card textarea,
+  .self-card textarea {
+    min-height: 150px;
+  }
 }
