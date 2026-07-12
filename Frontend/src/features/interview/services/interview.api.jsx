@@ -1,14 +1,38 @@
-export const generateInterviewReport = async ({ jobDescription, selfDescription, resumeFile }) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        data: {
-          jobDescription,
-          selfDescription,
-          resumeFileName: resumeFile?.name ?? null,
-        },
-      });
-    }, 500);
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:4000",
+  withCredentials: true,
+});
+
+export const generateInterviewReport = async ({
+  jobDescription,
+  selfDescription,
+  resumeFile,
+}) => {
+  const formData = new FormData();
+  formData.append("jobDescription", jobDescription);
+  formData.append("selfDescription", selfDescription);
+  formData.append("resume", resumeFile);
+
+  console.log([...formData.entries()]);
+
+  const response = await api.post("/api/interview/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
+
+  return response.data;
+};
+
+export const getInterviewReportById = async (interviewId) => {
+  const response = await api.get(`/api/interview/report/${interviewId}`);
+
+  return response.data;
+};
+
+export const getAllInterviewReports = async () => {
+  const reponse = await api.get("/api/interview/");
+  return response.data;
 };

@@ -1,31 +1,57 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "../style/home.scss";
 import { useInterview } from "../Hooks/useInterview";
+import { useNavigate } from "react-router";
+import Loading from "../../auth/components/Loading";
 
 const Home = () => {
-  const {
-    jobDescription,
-    selfDescription,
-    resumeFile,
-    isLoading,
-    setJobDescription,
-    setSelfDescription,
-    handleResumeChange,
-    handleSubmit,
-  } = useInterview();
+  const { loading, generateReport } = useInterview();
+  const navigate = useNavigate();
 
+  const [jobDescription, setJobDescription] = useState("");
+  const [selfDescription, setSelfDescription] = useState("");
+  const resumeInputRef = useRef();
+  const [resumePdf, setResumePdf] = useState(null);
+
+  const handleResumeChange = () => {
+    setResumePdf(resumeInputRef.current.files[0]);
+  };
+
+  const handleGenerateReport = async (e) => {
+    e.preventDefault();
+
+    console.log("SUBMIT CLICKED");
+
+    const resumeFile = resumeInputRef.current.files[0];
+
+    const data = await generateReport({
+      jobDescription,
+      selfDescription,
+      resumeFile,
+    });
+    console.log("DATA OBJECT:", data);
+    console.log("ID:", data?._id);
+
+    if (data?._id) {
+      navigate(`/interview/${data._id}`);
+    }
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <main className="home">
       <div className="hero-panel">
         <p className="eyebrow">Interview Intel</p>
         <h1>Candidate Analysis Engine</h1>
         <p className="hero-copy">
-          Analyze candidate resumes against specific job descriptions to generate an
-          AI-powered interview scorecard.
+          Analyze candidate resumes against specific job descriptions to
+          generate an AI-powered interview scorecard.
         </p>
       </div>
 
-      <form className="interview-panel" onSubmit={handleSubmit}>
+      <form className="interview-panel" onSubmit={handleGenerateReport}>
         <section className="card job-card">
           <div className="card-header">
             <span>Job Description</span>
@@ -50,16 +76,21 @@ const Home = () => {
               Drag and drop the PDF/Doc candidate resume, or browse to upload.
             </p>
             <label htmlFor="resume" className="dropzone">
-              <span>{resumeFile ? resumeFile.name : "Drop file here or browse"}</span>
+              <span>
+                {resumePdf ? resumePdf.name : "Drop file here or browse"}
+              </span>
             </label>
             <input
               hidden
               id="resume"
               type="file"
               accept=".pdf,.doc,.docx"
+              ref={resumeInputRef}
               onChange={handleResumeChange}
             />
-            {resumeFile && <div className="file-info">Selected: {resumeFile.name}</div>}
+            {resumePdf && (
+              <div className="file-info">Selected: {resumePdf.name}</div>
+            )}
           </section>
 
           <section className="card insight-card">
@@ -69,7 +100,8 @@ const Home = () => {
             </div>
             <p>
               Providing both a resume and a self-description allows our AI to
-              cross-reference hard skills with the candidate's personal narrative.
+              cross-reference hard skills with the candidate's personal
+              narrative.
             </p>
             <div className="meta-row">
               <span className="meta-dot" />
@@ -89,9 +121,11 @@ const Home = () => {
             placeholder="Enter a self-description, bio, or cover letter snippet to help the engine understand soft skills and culture fit."
           />
           <div className="self-footer">
-            <span className="char-count">{selfDescription.length} / 5000 CHARACTERS</span>
+            <span className="char-count">
+              {selfDescription.length} / 5000 CHARACTERS
+            </span>
             <button type="submit" className="generate-btn btn">
-              {isLoading ? "Generating..." : "Generate Interview Report"}
+              {loading ? "Generating..." : "Generate Interview Report"}
             </button>
           </div>
         </section>

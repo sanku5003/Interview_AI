@@ -1,42 +1,81 @@
 import { useState } from "react";
-import { generateInterviewReport } from "../services/interview.api";
-
+import {
+  getAllInterviewReports,
+  generateInterviewReport,
+  getInterviewReportById,
+} from "../services/interview.api";
+import { useContext } from "react";
+import { InterviewContext } from "../interview.context";
 export const useInterview = () => {
-  const [jobDescription, setJobDescription] = useState("");
-  const [selfDescription, setSelfDescription] = useState("");
-  const [resumeFile, setResumeFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const context = useContext(InterviewContext);
 
-  const handleResumeChange = (event) => {
-    const file = event.target.files?.[0] ?? null;
-    setResumeFile(file);
-  };
+  if (!context) {
+    throw new Error("use interview must be used within an interviewProvider");
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+  const [loading, setLoading] = useState(false);
+  const [report, setReport] = useState(null);
+  const [reports, setReports] = useState([]);
+
+  const generateReport = async ({
+    jobDescription,
+    selfDescription,
+    resumeFile,
+  }) => {
+    setLoading(true);
 
     try {
-      await generateInterviewReport({
+      const response = await generateInterviewReport({
         jobDescription,
         selfDescription,
         resumeFile,
       });
-    } catch (error) {
-      console.error("Interview report generation failed", error);
+
+      setReport(response.interviewReport);
+
+      return response.interviewReport;
+    } catch (err) {
+      console.log(err);
+      return null;
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
+  const getReportById = async (interviewId) => {
+    setLoading(true);
+
+    try {
+      const response = await getInterviewReportById(interviewId);
+      setReport(response.interviewReport);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+    return response?.interviewReport;
+  };
+
+  const getReports = async () => {
+    setLoading(true);
+  
+    try {
+      constresponse = await getAllInterviewReports();
+      setReports(response.interviewReports);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+    return response?.interviewReport;
+  };
+
   return {
-    jobDescription,
-    selfDescription,
-    resumeFile,
-    isLoading,
-    setJobDescription,
-    setSelfDescription,
-    handleResumeChange,
-    handleSubmit,
+    getReports,
+    getReportById,
+    generateReport,
+    loading,
+    report,
+    reports,
   };
 };
