@@ -110,7 +110,7 @@ ${jobDescription}
     delete rawSchema.additionalProperties;
   }
   const response = await ai.models.generateContent({
-    model: "gemini-3.5-flash",
+    model: "gemini-3.1-flash-lite",
     contents: prompt,
     config: {
       responseMimeType: "application/json",
@@ -189,7 +189,7 @@ Do NOT wrap the output in markdown code blocks (e.g., no \`\`\`json). Do NOT inc
   }
 
   const response = await ai.models.generateContent({
-    model: "gemini-3.5-flash",
+    model: "gemini-3.1-flash-lite",
     contents: prompt,
     config: {
       responseMimeType: "application/json",
