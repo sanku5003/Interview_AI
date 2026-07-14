@@ -1,8 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
-const puppeteer = require("puppeteer-core");
-const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer");
 const ai = new GoogleGenAI({
   apiKey: process.env.GOOGLE_GENAI_API_KEY,
 });
@@ -124,11 +123,12 @@ ${jobDescription}
 
 async function generatePdfFromHtml(htmlContent) {
   const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
-    headless: chromium.headless,
-  });
+  headless: true,
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox"
+  ]
+});
   const page = await browser.newPage();
   await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
@@ -139,7 +139,11 @@ async function generatePdfFromHtml(htmlContent) {
   return pdfBuffer;
 }
 
-async function generateResumePdf({ resume, selfDescription, jobDescription }) {
+async function generateResumePdf({
+  resume,
+  selfDescription,
+  jobDescription,
+}) {
   const resumepdfSchema = z.object({
     html: z
       .string()
@@ -148,15 +152,15 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
       ),
   });
 
-  // const prompt = `generate the resume for a candidate with the following data :
+  // const prompt = `generate the resume for a candidate with the following data : 
   //                     Resume : ${resume} ,
   //                     Self Description : ${selfDescription} ,
   //                     Job Description : ${jobDescription}
-  //                     the response should be a json format with a single field "html" which contains the HTML content of the resume which can be converted to PDF using any library like puppeteer
-
+  //                     the response should be a json format with a single field "html" which contains the HTML content of the resume which can be converted to PDF using any library like puppeteer 
+                      
   //                     `;
 
-  const prompt = `
+ const prompt = `
 You are an expert career coach, an executive recruiter. Your task is to generate html for a highly optimized, industry-standard, and ATS-friendly resume in HTML format.
 
 Data Inputs:
@@ -180,6 +184,7 @@ Output Constraints:
 You must respond STRICTLY with a valid JSON object containing exactly one key: "html". The value must be the raw HTML string. 
 Do NOT wrap the output in markdown code blocks (e.g., no \`\`\`json). Do NOT include any conversational text, explanations, or introductory phrases. Output only the raw, parsable JSON.
 `;
+
 
   const rawSchema = zodToJsonSchema(resumepdfSchema);
 
@@ -205,4 +210,4 @@ Do NOT wrap the output in markdown code blocks (e.g., no \`\`\`json). Do NOT inc
   return pdfBuffer;
 }
 
-module.exports = { generateInterviewReport, generateResumePdf };
+module.exports = {generateInterviewReport , generateResumePdf};
