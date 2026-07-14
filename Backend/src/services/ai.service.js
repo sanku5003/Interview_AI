@@ -1,6 +1,6 @@
-const { GoogleGenAI } = require("@google/genai");
-const { z } = require("zod");
-const { zodToJsonSchema } = require("zod-to-json-schema");
+import { GoogleGenAI } from "@google/genai";
+import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
