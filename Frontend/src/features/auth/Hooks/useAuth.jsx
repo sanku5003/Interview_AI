@@ -27,37 +27,39 @@ export const useAuth = () => {
 
       if (data?.user) {
         setUser(data.user);
-        return true;
+        return { success: true };
       }
 
-      return false;
+      return { success: false, message: "Login failed" };
     } catch (err) {
       console.log(err);
-      return false;
+      const message = err.response?.data?.message || err.message || "Invalid email or password";
+      return { success: false, message };
     } finally {
       setLoading(false);
     }
   };
 
   const handleRegister = async ({ email, username, password }) => {
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const data = await register({ email, username, password });
+    try {
+      const data = await register({ email, username, password });
 
-    if (data?.user) {
-      await setUser(data.user);
-      return true;
+      if (data?.newUser) {
+        setUser(data.newUser);
+        return { success: true };
+      }
+
+      return { success: false, message: data?.message || "Registration failed" };
+    } catch (err) {
+      console.error(err);
+      const message = err.response?.data?.message || err.message || "Registration failed";
+      return { success: false, message };
+    } finally {
+      setLoading(false);
     }
-
-    return false;
-  } catch (err) {
-    console.error(err);
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const handleLogout = async () => {
     setLoading(true);

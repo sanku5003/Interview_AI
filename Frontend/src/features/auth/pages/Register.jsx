@@ -11,16 +11,24 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister({
+    setError("");
+
+    const result = await handleRegister({
       email,
       username,
       password,
     });
 
-    navigate("/")
+    if (result.success) {
+      navigate("/");
+      return;
+    }
+
+    setError(result.message || "Registration failed");
   };
 
   if (loading) {
@@ -43,6 +51,7 @@ const Register = () => {
               <div className="input-group">
                 <label htmlFor="username">Username</label>
                 <input
+                  className={error ? "field-error" : ""}
                   onChange={(e) => setUsername(e.target.value)}
                   type="text"
                   id="username"
@@ -52,6 +61,7 @@ const Register = () => {
               <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input
+                  className={error ? "field-error" : ""}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   id="email"
@@ -61,6 +71,7 @@ const Register = () => {
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
+                  className={error ? "field-error" : ""}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   id="password"
@@ -68,6 +79,8 @@ const Register = () => {
                 />
               </div>
             </div>
+
+            {error && <div className="form-error">{error}</div>}
 
             <button className="btn auth-btn" type="submit">
               Register

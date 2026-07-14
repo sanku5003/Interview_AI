@@ -3,6 +3,7 @@ import {
   getAllInterviewReports,
   generateInterviewReport,
   getInterviewReportById,
+  generateResumePdf,
 } from "../services/interview.api";
 import { useContext } from "react";
 import { InterviewContext } from "../interview.context";
@@ -59,7 +60,7 @@ export const useInterview = () => {
   };
   // const getReports = async () => {
   //   setLoading(true);
-   
+
   //   try {
   //     const response = await getAllInterviewReports();
   //     setReports(response.interviewReports);
@@ -69,28 +70,22 @@ export const useInterview = () => {
   //   } finally {
   //     setLoading(false);
   //   }
-    
+
   // };
 
   const getReports = async () => {
     setLoading(true);
-    
+
     try {
       const response = await getAllInterviewReports();
-      
-      // 1. LOG THE RAW RESPONSE HERE:
-      console.log("RAW API RESPONSE:", response); 
 
-      // 2. CHECK FOR AXIOS .data WRAPPER
-      // If you are using Axios in your api.js file, the data is likely inside response.data
-      const reportsData = response.interviewReports || response.data?.interviewReports;
-      
-      console.log("EXTRACTED REPORTS:", reportsData);
+      const reportsData =
+        response.interviewReports || response.data?.interviewReports;
 
       if (reportsData) {
         setReports(reportsData);
       }
-      
+
       return reportsData;
     } catch (err) {
       console.error("GET REPORTS ERROR:", err);
@@ -99,6 +94,23 @@ export const useInterview = () => {
     }
   };
 
+  const getResumePdf = async (interviewReportId) => {
+    setLoading(true)
+    try{
+      const response = await generateResumePdf({interviewReportId});
+      const url = window.URL.createObjectURL(new Blob([response] , {type : "application/pdf"}))
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute("download" , `resume_${interviewReportId}.pdf`)
+      document.body.appendChild(link)
+      link.click()
+    }catch(err){
+      console.log(err);
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return {
     getReports,
     getReportById,
@@ -106,5 +118,6 @@ export const useInterview = () => {
     loading,
     report,
     reports,
+    getResumePdf
   };
 };

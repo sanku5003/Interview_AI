@@ -10,17 +10,22 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setError("");
 
-  const success = await handleLogin({ email, password });
+    const result = await handleLogin({ email, password });
 
-  if(success){
-    navigate("/");
-  }
-};
+    if (result.success) {
+      navigate("/");
+      return;
+    }
+
+    setError(result.message || "Invalid email or password");
+  };
 
   if(loading){
     return <Loading />
@@ -43,6 +48,7 @@ const Login = () => {
               <div className="input-group">
                 <label htmlFor="email">Email</label>
                 <input
+                  className={error ? "field-error" : ""}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   id="email"
@@ -52,6 +58,7 @@ const Login = () => {
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
+                  className={error ? "field-error" : ""}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   id="password"
@@ -59,6 +66,8 @@ const Login = () => {
                 />
               </div>
             </div>
+
+            {error && <div className="form-error">{error}</div>}
 
             <button className="btn auth-btn" type="submit">
               Login
