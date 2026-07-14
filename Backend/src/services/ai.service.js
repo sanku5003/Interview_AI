@@ -124,10 +124,13 @@ ${jobDescription}
 
 async function generatePdfFromHtml(htmlContent) {
  const browser = await puppeteer.launch({
-  args: chromium.args,
-  defaultViewport: chromium.defaultViewport,
-  executablePath: await chromium.executablePath(),
-  headless: chromium.headless,
+  headless: true, 
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage", 
+    "--single-process" 
+  ],
 });
   const page = await browser.newPage();
   await page.setContent(htmlContent, { waitUntil: "networkidle0" });
