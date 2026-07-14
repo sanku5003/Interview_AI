@@ -5,7 +5,6 @@ import {
   getInterviewReportById,
   generateResumePdf,
 } from "../services/interview.api";
-
 import { useContext } from "react";
 import { InterviewContext } from "../interview.context";
 export const useInterview = () => {
@@ -16,7 +15,7 @@ export const useInterview = () => {
   }
 
   const [loading, setLoading] = useState(false);
-  const { report , setReport} = context();
+  const [report, setReport] = useState(null);
   const [reports, setReports] = useState([]);
 
   const generateReport = async ({
@@ -117,7 +116,7 @@ export const useInterview = () => {
     getReportById,
     generateReport,
     loading,
-   
+    report,
     reports,
     getResumePdf
   };
