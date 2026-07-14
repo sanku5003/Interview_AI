@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import "../style/interview.scss";
 
 import { useInterview } from "../Hooks/useInterview";
@@ -7,18 +9,27 @@ import Loading from "../../auth/components/Loading";
 const Interview = () => {
   const [selectedSection, setSelectedSection] = useState("technical");
 
-   const { report, getReportById, loading } = useInterview();
-  const { id } = useParams();
+  const params = useParams();
+  console.log("URL Parameters:", params);
 
+  const { report, getReportById, loading } = useInterview();
+
+  // 2. Fetch the report when the component mounts or when the ID changes
   useEffect(() => {
-    getReportById(id);
-  }, [id]);
+    console.log("useEffect running interview ID is:", params.interviewId); // <--- ADD THIS LINE
+    if (params.interviewId) {
+      getReportById(params.interviewId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.interviewId]);
 
-
-  if (loading || !report) {
+  if (loading) {
     return <Loading />;
   }
 
+  if (!report) {
+    return <div>No report found or failed to load.</div>;
+  }
 
   return (
     <div className="interview-page">
@@ -55,7 +66,8 @@ const Interview = () => {
             <p className="eyebrow">Interview review</p>
             <h1>Candidate assessment</h1>
             <p className="content-copy">
-              Review the match score, candidate questions, and preparation plan one section at a time.
+              Review the match score, candidate questions, and preparation plan
+              one section at a time.
             </p>
           </div>
         </div>
@@ -64,7 +76,10 @@ const Interview = () => {
           <section className="content-block" id="technical">
             <div className="content-block-heading">
               <h2>Technical questions</h2>
-              <p>Questions likely to be asked in the technical portion of the interview.</p>
+              <p>
+                Questions likely to be asked in the technical portion of the
+                interview.
+              </p>
             </div>
             <div className="question-grid">
               {report.technicalQuestions.map((item, index) => (
@@ -140,7 +155,8 @@ const Interview = () => {
           ))}
         </div>
         <div className="gap-note">
-          Highlight the strongest areas for coaching and focus before the interview.
+          Highlight the strongest areas for coaching and focus before the
+          interview.
         </div>
       </aside>
     </div>

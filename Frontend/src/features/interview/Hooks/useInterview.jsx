@@ -23,9 +23,9 @@ export const useInterview = () => {
     resumeFile,
   }) => {
     setLoading(true);
-
+    let response = null;
     try {
-      const response = await generateInterviewReport({
+      response = await generateInterviewReport({
         jobDescription,
         selfDescription,
         resumeFile,
@@ -47,20 +47,21 @@ export const useInterview = () => {
 
     try {
       const response = await getInterviewReportById(interviewId);
-      setReport(response.interviewReport);
+      console.log("API Response:", response);
+      await setReport(response.interviewReport);
+      return response.interviewReport;
     } catch (err) {
       console.log(err);
+      return null;
     } finally {
       setLoading(false);
     }
-    return response?.interviewReport;
   };
-
   const getReports = async () => {
     setLoading(true);
-  
+    let response = null;
     try {
-      constresponse = await getAllInterviewReports();
+      response = await getAllInterviewReports();
       setReports(response.interviewReports);
     } catch (err) {
       console.log(err);
