@@ -15,7 +15,7 @@ export const useInterview = () => {
   }
 
   const [loading, setLoading] = useState(false);
-  const [report, setReport] = useState(null);
+ 
   const [reports, setReports] = useState([]);
 
   const generateReport = async ({
