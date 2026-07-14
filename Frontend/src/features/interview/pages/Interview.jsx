@@ -15,7 +15,7 @@ const Interview = () => {
   console.log("URL Parameters:", params);
 
   const { getReportById, loading, getResumePdf } = useInterview();
-  const {report} = useContext(InterviewContext)
+ 
 
   // 2. Fetch the report when the component mounts or when the ID changes
   useEffect(() => {
