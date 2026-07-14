@@ -3,7 +3,7 @@ const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
 
 const puppeteer = require("puppeteer-core");
-const chromium = require("@sparticuz/chromium");
+const chromium = require("@sparticuz/chromium").default || require("@sparticuz/chromium");
 const ai = new GoogleGenAI({
   apiKey: process.env.GOOGLE_GENAI_API_KEY,
 });
@@ -127,7 +127,7 @@ async function generatePdfFromHtml(htmlContent) {
 const browser = await puppeteer.launch({
   args: chromium.args,
   defaultViewport: chromium.defaultViewport,
-  // THIS IS THE CRITICAL LINE:
+  
   executablePath: await chromium.executablePath(), 
   headless: chromium.headless,
   ignoreHTTPSErrors: true,
