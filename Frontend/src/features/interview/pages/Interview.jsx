@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import "../style/interview.scss";
@@ -14,8 +14,7 @@ const Interview = () => {
   const params = useParams();
   console.log("URL Parameters:", params);
 
-  const { getReportById, loading, getResumePdf } = useInterview();
- 
+  const { report, getReportById, loading, getResumePdf } = useInterview();
 
   // 2. Fetch the report when the component mounts or when the ID changes
   useEffect(() => {
