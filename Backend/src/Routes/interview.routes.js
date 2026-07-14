@@ -28,4 +28,13 @@ interviewRouter.get("/report/:interviewId" , authUser , interviewController.getI
 
 interviewRouter.get("/" , authUser , interviewController.getAllInterviewReportsController)
 
+
+/**
+ * @route GET /api/interview/resume/pdf
+ * @description for generating resume pdf
+ * @access Public
+ */
+
+interviewRouter.post("/resume/pdf/:interviewReportId" , authUser , interviewController.generateResumePdfController )
+
 module.exports = interviewRouter;
