@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "../style/interview.scss";
 
@@ -7,14 +7,17 @@ import { useInterview } from "../Hooks/useInterview";
 import Loading from "../../auth/components/Loading";
 import { generateResumePdf } from "../services/interview.api";
 import ReportNotFound from "../components/ReportNotFound";
+import { useAuth } from "../../auth/Hooks/useAuth";
 
 const Interview = () => {
   const [selectedSection, setSelectedSection] = useState("technical");
 
   const params = useParams();
+  const navigate = useNavigate();
   console.log("URL Parameters:", params);
 
   const { report, getReportById, loading, getResumePdf } = useInterview();
+  const { handleLogout } = useAuth();
 
   // 2. Fetch the report when the component mounts or when the ID changes
   useEffect(() => {
@@ -24,6 +27,11 @@ const Interview = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.interviewId]);
+
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    navigate("/login");
+  };
 
   if (loading) {
     return <Loading />;
@@ -36,6 +44,9 @@ const Interview = () => {
   return (
     <div className="interview-page">
       <aside className="panel nav-panel">
+        <button type="button" className="logout-btn sidebar-logout" onClick={handleLogoutClick}>
+          Logout
+        </button>
         <div className="panel-label">Sections</div>
         <nav className="nav-list">
           <button

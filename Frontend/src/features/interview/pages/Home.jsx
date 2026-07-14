@@ -3,9 +3,11 @@ import "../style/home.scss";
 import { useInterview } from "../Hooks/useInterview";
 import { useNavigate } from "react-router";
 import Loading from "../../auth/components/Loading";
+import { useAuth } from "../../auth/Hooks/useAuth";
 
 const Home = () => {
   const { loading, generateReport , reports , getReports} = useInterview();
+  const { handleLogout } = useAuth();
   const navigate = useNavigate();
 
   const [jobDescription, setJobDescription] = useState("");
@@ -36,6 +38,11 @@ const Home = () => {
       navigate(`/interview/${data._id}`);
     }
   };
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    navigate("/login");
+  };
+
   useEffect(() => {
     getReports();
   }, []);
@@ -48,6 +55,11 @@ const Home = () => {
   return (
     <main className="home">
       <div className="hero-panel">
+        <div className="hero-toolbar">
+          <button type="button" className="logout-btn" onClick={handleLogoutClick}>
+            Logout
+          </button>
+        </div>
         <p className="eyebrow">Interview Intel</p>
         <h1>Candidate Analysis Engine</h1>
         <p className="hero-copy">

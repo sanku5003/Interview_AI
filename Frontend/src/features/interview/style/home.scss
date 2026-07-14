@@ -19,6 +19,28 @@
   gap: 1rem;
 }
 
+.hero-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logout-btn {
+  border: 1px solid rgba(126, 205, 255, 0.24);
+  background: rgba(255, 255, 255, 0.05);
+  color: #dff6ff;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(126, 205, 255, 0.42);
+}
+
 .eyebrow {
   color: #7ddbff;
   letter-spacing: 0.24em;
