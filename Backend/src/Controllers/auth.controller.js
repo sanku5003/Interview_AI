@@ -15,11 +15,18 @@ async function registerUserController(req, res) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const isUserAlreadyExist = await userModel.findOne({
-    $or: [{ email }, { username }],
-  });
-  if (isUserAlreadyExist) {
-    return res.status(400).json({ message: "User already exists" });
+  if (password.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters long" });
+  }
+
+  const emailExists = await userModel.findOne({ email });
+  if (emailExists) {
+    return res.status(400).json({ message: "Email already registered" });
+  }
+
+  const usernameExists = await userModel.findOne({ username });
+  if (usernameExists) {
+    return res.status(400).json({ message: "Username already taken" });
   }
 
   const hash = await bcrypt.hash(password, 10);
