@@ -1,10 +1,8 @@
-
-
 .interview-page {
   height: 99vh;
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr) 280px;
- 
+
   gap: 1.5rem;
   padding: 2rem 2rem;
   background: radial-gradient(circle at top, rgba(18, 39, 61, 0.9), transparent 22%),
@@ -23,8 +21,8 @@
   box-shadow: 0 26px 90px rgba(0, 0, 0, 0.22);
   padding: 1.3rem;
   height: 100% !important;
-  
-  
+
+
 }
 
 
@@ -34,8 +32,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  
-  
+
+
 }
 
 .panel-label {
@@ -150,7 +148,7 @@
 .content-block {
   display: grid;
   gap: 1rem;
- 
+
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -304,7 +302,7 @@
   border: 1px solid rgba(126, 205, 255, 0.3);
   box-shadow: 0 0 0 0 rgba(126, 205, 255, 0.15);
   transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
- 
+
 }
 
 .timeline-item:hover .timeline-badge {
@@ -369,6 +367,7 @@
 @media (max-width: 1120px) {
   .interview-page {
     grid-template-columns: 1fr;
+    overflow-y: scroll;
   }
 
   .content-panel {
@@ -384,11 +383,32 @@
   .score-pill {
     width: 100%;
   }
+
+  .timeline-badge {
+    position: relative;
+    left: -0.9rem;
+    top: -0.5rem;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(126, 205, 255, 0.18);
+    color: #d7f1ff;
+    font-size: 0.78rem;
+    border: 1px solid rgba(126, 205, 255, 0.3);
+    box-shadow: 0 0 0 0 rgba(126, 205, 255, 0.15);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
+
+  }
 }
 
 @media (max-width: 760px) {
   .interview-page {
     padding: 1.4rem 0.85rem 1.8rem;
+    overflow-y: scroll;
   }
 
   .panel {
@@ -399,5 +419,25 @@
   .plan-card,
   .timeline-item {
     padding: 1rem;
+  }
+
+  .timeline-badge {
+    position: relative;
+    left: -0.9rem;
+    top: -0.5rem;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(126, 205, 255, 0.18);
+    color: #d7f1ff;
+    font-size: 0.78rem;
+    border: 1px solid rgba(126, 205, 255, 0.3);
+    box-shadow: 0 0 0 0 rgba(126, 205, 255, 0.15);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
+
   }
 }

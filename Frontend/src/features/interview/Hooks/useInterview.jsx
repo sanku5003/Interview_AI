@@ -57,18 +57,46 @@ export const useInterview = () => {
       setLoading(false);
     }
   };
+  // const getReports = async () => {
+  //   setLoading(true);
+   
+  //   try {
+  //     const response = await getAllInterviewReports();
+  //     setReports(response.interviewReports);
+  //     return response?.interviewReports;
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+    
+  // };
+
   const getReports = async () => {
     setLoading(true);
-    let response = null;
+    
     try {
-      response = await getAllInterviewReports();
-      setReports(response.interviewReports);
+      const response = await getAllInterviewReports();
+      
+      // 1. LOG THE RAW RESPONSE HERE:
+      console.log("RAW API RESPONSE:", response); 
+
+      // 2. CHECK FOR AXIOS .data WRAPPER
+      // If you are using Axios in your api.js file, the data is likely inside response.data
+      const reportsData = response.interviewReports || response.data?.interviewReports;
+      
+      console.log("EXTRACTED REPORTS:", reportsData);
+
+      if (reportsData) {
+        setReports(reportsData);
+      }
+      
+      return reportsData;
     } catch (err) {
-      console.log(err);
+      console.error("GET REPORTS ERROR:", err);
     } finally {
       setLoading(false);
     }
-    return response?.interviewReport;
   };
 
   return {

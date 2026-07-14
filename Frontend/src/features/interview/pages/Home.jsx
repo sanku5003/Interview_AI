@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState , useEffect} from "react";
 import "../style/home.scss";
 import { useInterview } from "../Hooks/useInterview";
 import { useNavigate } from "react-router";
 import Loading from "../../auth/components/Loading";
 
 const Home = () => {
-  const { loading, generateReport } = useInterview();
+  const { loading, generateReport , reports , getReports} = useInterview();
   const navigate = useNavigate();
 
   const [jobDescription, setJobDescription] = useState("");
@@ -36,10 +36,15 @@ const Home = () => {
       navigate(`/interview/${data._id}`);
     }
   };
+  useEffect(() => {
+    getReports();
+  }, []);
 
   if (loading) {
     return <Loading />;
   }
+
+  console.log("Current reports state:", reports);
   return (
     <main className="home">
       <div className="hero-panel">
@@ -130,6 +135,26 @@ const Home = () => {
           </div>
         </section>
       </form>
+
+     {reports && reports.length > 0 && (
+        <section className="recent-reports">
+          <h2>My Recent Interview Plans</h2>
+          <ul className="reports-list">
+             {reports.map((report) => (
+              <li 
+                key={report._id} 
+                className="report-item" 
+                onClick={() => navigate(`/interview/${report._id}`)}
+              >
+                <h3>{report.title || 'Untitled Position'}</h3>
+                <p className="report-meta"> 
+                  Generated on {new Date(report.createdAt).toLocaleDateString()}
+                </p>
+              </li>
+             ))}
+          </ul>
+        </section>
+      )}
     </main>
   );
 };

@@ -224,11 +224,67 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 960px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
+.recent-reports {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
 }
+
+.recent-reports h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #eff7ff;
+  letter-spacing: 0.02em;
+}
+
+.reports-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.report-item {
+  background: rgba(10, 21, 37, 0.92);
+  border: 1px solid rgba(92, 138, 190, 0.16);
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.report-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 209, 255, 0.35);
+  box-shadow: 0 20px 50px rgba(19, 71, 126, 0.18);
+  background: rgba(15, 27, 45, 0.98);
+}
+
+.report-item h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #f4f7fb;
+}
+
+.report-meta {
+  margin: 0;
+  color: #8ea7bf;
+  font-size: 0.9rem;
+}
+
+.report-item::after {
+  content: "\2192";
+  justify-self: end;
+  color: #7ddbff;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+
 
 @media (max-width: 760px) {
   .home {
